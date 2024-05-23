@@ -41,9 +41,7 @@ public class MenuInputProcessor extends BaseInputProcessor {
                     String nombreCliente = scanner.nextLine();
                     Cliente clienteCuenta = banco.buscarClientePorNombre(nombreCliente);
                     if (clienteCuenta != null) {
-                        Cuenta nuevaCuenta = new Cuenta()
-                                .setNombre(nombreCliente)
-                                .setFechaCreacion(LocalDateTime.now());
+                        Cuenta nuevaCuenta = new Cuenta().setNombre(nombreCliente).setFechaCreacion(LocalDateTime.now());
                         clienteCuenta.addCuenta(nuevaCuenta);
                         System.out.println("Nueva cuenta creada con éxito para el cliente: " + nombreCliente);
                     } else {
