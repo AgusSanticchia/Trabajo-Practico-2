@@ -2,23 +2,23 @@ package ar.edu.utn.frbb.tup.model;
 
 public enum TipoPersona {
 
-    PERSONA_FISICA("F"),
-    PERSONA_JURIDICA("J");
+    INDIVIDUAL("F"),
+    LEGAL_ENTITY("J");
 
-    private final String descripcion;
+    private final String description;
 
-    TipoPersona(String descripcion) {
-        this.descripcion = descripcion;
+    TipoPersona(String description) {
+        this.description = description;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
     public static TipoPersona fromString(String text) {
-        for (TipoPersona tipo : TipoPersona.values()) {
-            if (tipo.descripcion.equalsIgnoreCase(text)) {
-                return tipo;
+        for (TipoPersona type : TipoPersona.values()) {
+            if (type.description.equalsIgnoreCase(text)) {
+                return type;
             }
         }
         throw new IllegalArgumentException("No se pudo encontrar un TipoPersona con la descripción: " + text);

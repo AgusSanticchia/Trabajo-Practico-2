@@ -45,10 +45,19 @@ public class Banco {
     public void realizarRetiro(String nombreCliente, String nombreCuenta, int monto) {
         for (Cliente cliente : clientes) {
             if (cliente.getNombre().equals(nombreCliente)) {
-                cliente.realizarRetiro(nombreCuenta, monto);
+                cliente.realizarRetiro(monto);
                 return;
             }
         }
         System.out.println("Error: Cliente no encontrado.");
+    }
+
+    public Cliente buscarClientePorNombre(String nombre) {
+        for (Cliente cliente : clientes) {
+            if (cliente != null && cliente.getNombre() != null && cliente.getNombre().equalsIgnoreCase(nombre)) {
+                return cliente;
+            }
+        }
+        return null;
     }
 }

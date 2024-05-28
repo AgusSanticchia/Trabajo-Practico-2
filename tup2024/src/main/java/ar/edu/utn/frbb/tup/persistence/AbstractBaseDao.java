@@ -9,8 +9,9 @@ public abstract class AbstractBaseDao {
 
     protected Map<Long, Object> getInMemoryDatabase() {
         if (poorMansDatabase.get(getEntityName()) == null) {
-            poorMansDatabase.put(getEntityName(),new HashMap<>());
+            poorMansDatabase.put(getEntityName(), new HashMap<Long, Object>());
         }
         return poorMansDatabase.get(getEntityName());
     }
+
 }

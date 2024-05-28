@@ -10,6 +10,7 @@ public class Cliente extends Persona{
     private String banco;
     private LocalDate fechaAlta;
     private Set<Cuenta> cuentas = new HashSet<>();
+    private TipoCuenta tipoCuenta;
 
     public TipoPersona getTipoPersona() {
         return tipoPersona;
@@ -19,12 +20,26 @@ public class Cliente extends Persona{
         this.tipoPersona = tipoPersona;
     }
 
+    public TipoCuenta getTipoCuenta() {
+        return tipoCuenta;
+    }
+
+    public void setTipoCuenta(TipoCuenta tipoCuenta) {
+        this.tipoCuenta = tipoCuenta;
+    }
+
     public String getBanco() {
         return banco;
     }
 
     public void setBanco(String banco) {
         this.banco = banco;
+    }
+
+    public void getNombreCuenta() {
+        for (Cuenta cuenta : cuentas) {
+            System.out.println(cuenta.getNombre());
+        }
     }
 
     public LocalDate getFechaAlta() {
@@ -45,5 +60,39 @@ public class Cliente extends Persona{
     public void eliminarCuenta(Cuenta cuenta) {
         this.cuentas.remove(cuenta);
     }
+
+    public void realizarRetiro(int monto){
+        for (Cuenta cuenta : cuentas) {
+            cuenta.retirar(monto);
+        }
+    }
+
+    public void realizarDeposito(String nombreCuenta, int monto) {
+        if (monto > 0) {
+            for (Cuenta cuenta : cuentas) {
+                if (cuenta.getNombre().equals(nombreCuenta)) {
+                    cuenta.depositar(monto);
+                    System.out.println("Se depositaron " + monto + " unidades en la cuenta " + nombreCuenta);
+                    return;
+                }
+            }
+        System.out.println("Error: Cuenta no encontrada.");
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'realizarDeposito'");
+    }
+
+    
+    public boolean tieneCuenta(Long numeroCuenta, Object moneda) {
+        if (moneda == null) {
+            for (Cuenta cuenta : cuentas) {
+                if (cuenta.getNumeroCuenta().equals(numeroCuenta)) {
+                    return true;
+                }
+            }
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'tieneCuenta'");
+    }
+
+    
 
 }

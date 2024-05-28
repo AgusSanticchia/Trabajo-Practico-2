@@ -1,15 +1,12 @@
 package ar.edu.utn.frbb.tup.presentation.input;
 
-package ar.edu.utn.frbb.tup.model.Cliente;
-package ar.edu.utn.frbb.tup.model.TipoipoPersona;
+import ar.edu.utn.frbb.tup.model.Cliente;
+import ar.edu.utn.frbb.tup.model.TipoPersona;
+import ar.edu.utn.frbb.tup.model.TipoCuenta;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ClienteInputProcessor extends BaseInputProcessor{
-
-    private static List<Cliente> clientes = new ArrayList<>();
 
     public Cliente ingresarCliente() {
 
@@ -32,6 +29,22 @@ public class ClienteInputProcessor extends BaseInputProcessor{
         }
         TipoPersona tipoPersona = TipoPersona.fromString(tipoPersonaStr);
         cliente.setTipoPersona(tipoPersona);
+
+        System.out.println("Ingrese el tipo de cuenta CORRIENTE(C) o AHORRO(A) o CORRIENTE USS(CU) o AHORRO USS(AU): ");
+        String tipoCuentaStr = scanner.nextLine().toUpperCase();
+        while (!tipoCuentaStr.equals("C") && !tipoCuentaStr.equals("A" )  && !tipoCuentaStr.equals("CU") && !tipoCuentaStr.equals("AU")) {
+            System.out.println("Tipo de cuenta inválido. Ingrese CORRIENTE o AHORRO o CORRIENTE USS o AHORRO USS:");
+            tipoCuentaStr = scanner.nextLine().toUpperCase();
+        }
+        if (tipoCuentaStr.equals("C")) {
+            cliente.setTipoCuenta(TipoCuenta.CUENTA_CORRIENTE);
+        } else if (tipoCuentaStr.equals("A")) {
+            cliente.setTipoCuenta(TipoCuenta.CAJA_AHORRO);
+        } else if (tipoCuentaStr.equals("CU")) {
+            cliente.setTipoCuenta(TipoCuenta.CUENTA_CORRIENTE_USS);
+        } else if (tipoCuentaStr.equals("AU")) {
+            cliente.setTipoCuenta(TipoCuenta.CAJA_AHORRO_USS);
+        }
 
         System.out.println("Ingrese el banco del cliente:");
         String banco = scanner.nextLine();

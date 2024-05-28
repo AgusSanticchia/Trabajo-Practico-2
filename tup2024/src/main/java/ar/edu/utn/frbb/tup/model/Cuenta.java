@@ -53,4 +53,42 @@ public class Cuenta {
             System.out.println("Error: Saldo insuficiente para realizar el retiro.");
         }
     }
+
+    public Long getNumeroCuenta() {
+        if (nombre == null || nombre.isEmpty()) {
+            System.out.println("Error: El nombre de la cuenta no puede ser nulo o vacío.");
+            return null;
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'getNumeroCuenta'");
+    }
+
+    public Persona getTitular() {
+        if (nombre == null || nombre.isEmpty()) {
+            System.out.println("Error: El nombre de la cuenta no puede ser nulo o vacío.");
+            return null;
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'getTitular'");
+    }
+
+    public Object getMoneda() {
+        if (nombre == null || nombre.isEmpty()) {
+            System.out.println("Error: El nombre de la cuenta no puede ser nulo o vacío.");
+            return null;
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'getMoneda'");
+    }
+
+    public Cuenta setMoneda(String string) {
+        
+        throw new UnsupportedOperationException("Unimplemented method 'setMoneda'");
+    }
+
+    public Cuenta setTipoCuenta(TipoCuenta cajaAhorro) {
+        if (nombre == null || nombre.isEmpty()) {
+            System.out.println("Error: El nombre de la cuenta no puede ser nulo o vacío.");
+            return null;
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'setTipoCuenta'");
+    }
+
 }

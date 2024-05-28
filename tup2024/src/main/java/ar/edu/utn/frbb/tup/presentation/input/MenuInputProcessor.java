@@ -1,13 +1,19 @@
 package ar.edu.utn.frbb.tup.presentation.input;
 
+import ar.edu.utn.frbb.tup.model.Banco;
 import ar.edu.utn.frbb.tup.model.Cliente;
-import java.util.Scanner;
-import java.util.Set;
+import ar.edu.utn.frbb.tup.model.Cuenta;
+
+import java.util.*;
+
 import java.time.LocalDateTime;
 
 public class MenuInputProcessor extends BaseInputProcessor {
     ClienteInputProcessor clienteInputProcessor = new ClienteInputProcessor();
     boolean exit = false;
+
+    private List<Cliente> clientesTemporales = new ArrayList<>(); // Almacena clientes temporalmente
+    private List<Cuenta> cuentasTemporales = new ArrayList<>(); // Almacena cuentas temporalmente
 
     public void renderMenu(Banco banco) {
 
@@ -33,6 +39,8 @@ public class MenuInputProcessor extends BaseInputProcessor {
                 case 1:
                     Cliente nuevoCliente = clienteInputProcessor.ingresarCliente();
                     banco.agregarCliente(nuevoCliente);
+                    clientesTemporales.add(nuevoCliente); 
+                    System.out.println("Cliente creado con éxito: " + nuevoCliente.getNombre());
                     break;
 
                 case 2:
@@ -43,6 +51,8 @@ public class MenuInputProcessor extends BaseInputProcessor {
                     if (clienteCuenta != null) {
                         Cuenta nuevaCuenta = new Cuenta().setNombre(nombreCliente).setFechaCreacion(LocalDateTime.now());
                         clienteCuenta.addCuenta(nuevaCuenta);
+                        // Cambios realizados: Añadir cuenta a la lista temporal
+                        cuentasTemporales.add(nuevaCuenta); 
                         System.out.println("Nueva cuenta creada con éxito para el cliente: " + nombreCliente);
                     } else {
                         System.out.println("Cliente no encontrado. No se pudo crear la cuenta.");
@@ -50,11 +60,10 @@ public class MenuInputProcessor extends BaseInputProcessor {
                     break;
 
                 case 3:
-
                     System.out.println("Generación de un movimiento:");
                     System.out.print("Ingrese el nombre del cliente asociado al movimiento: ");
                     String nombreClienteMovimiento = scanner.nextLine();
-                    
+
                     // Buscar el cliente en el banco
                     Cliente clienteMovimiento = banco.buscarClientePorNombre(nombreClienteMovimiento);
                     if (clienteMovimiento != null) {
@@ -69,22 +78,21 @@ public class MenuInputProcessor extends BaseInputProcessor {
                         System.out.print("Seleccione el número de la cuenta para el movimiento: ");
                         int cuentaIndex = scanner.nextInt();
                         scanner.nextLine(); 
-                        
+
                         // Verificar si el número de cuenta seleccionado es válido
                         if (cuentaIndex >= 1 && cuentaIndex <= cuentasCliente.size()) {
                             // Obtener la cuenta seleccionada
                             Cuenta cuentaSeleccionada = (Cuenta) cuentasCliente.toArray()[cuentaIndex - 1];
-                            
+
                             System.out.print("Ingrese el monto del movimiento: ");
                             int montoMovimiento = scanner.nextInt();
                             scanner.nextLine();
 
-
-                        // Supongamos que el monto positivo representa un depósito y el monto negativo representa un retiro
-                            if (montoMovimiento > 0) { // Mayor a 0 ya que es positivo
+                            // Supongamos que el monto positivo representa un depósito y el monto negativo representa un retiro
+                            if (montoMovimiento > 0) {
                                 cuentaSeleccionada.depositar(montoMovimiento);
                                 System.out.println("Depósito de " + montoMovimiento + " realizado en la cuenta " + cuentaSeleccionada.getNombre());
-                            } else if (montoMovimiento < 0) { // Menor a 0 ya que es negativo
+                            } else if (montoMovimiento < 0) {
                                 if (cuentaSeleccionada.getBalance() >= Math.abs(montoMovimiento)) {
                                     cuentaSeleccionada.retirar(Math.abs(montoMovimiento));
                                     System.out.println("Retiro de " + Math.abs(montoMovimiento) + " realizado en la cuenta " + cuentaSeleccionada.getNombre());
@@ -107,10 +115,9 @@ public class MenuInputProcessor extends BaseInputProcessor {
                     break;
                 default:
                     System.out.println("Opción inválida. Por favor seleccione 1-4.");
-
             }
             clearScreen();
         }
     }
-}
 
+}

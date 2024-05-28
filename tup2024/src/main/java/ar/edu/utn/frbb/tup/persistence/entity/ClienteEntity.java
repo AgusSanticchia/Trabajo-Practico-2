@@ -3,8 +3,6 @@ package ar.edu.utn.frbb.tup.persistence.entity;
 import ar.edu.utn.frbb.tup.model.Cliente;
 import ar.edu.utn.frbb.tup.model.Cuenta;
 import ar.edu.utn.frbb.tup.model.TipoPersona;
-import ar.edu.utn.frbb.tup.persistence.entity.BaseEntity;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,7 @@ public class ClienteEntity extends BaseEntity {
 
     public ClienteEntity(Cliente cliente) {
         super(cliente.getDni());
-        this.tipoPersona = cliente.getTipoPersona() != null ? cliente.getTipoPersona().getDescripcion() : null;
+        this.tipoPersona = cliente.getTipoPersona() != null ? cliente.getTipoPersona().getDescription() : null;
         this.nombre = cliente.getNombre();
         this.apellido = cliente.getApellido();
         this.fechaAlta = cliente.getFechaAlta();

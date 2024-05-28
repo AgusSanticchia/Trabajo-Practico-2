@@ -7,12 +7,14 @@ import ar.edu.utn.frbb.tup.model.TipoPersona;
 import ar.edu.utn.frbb.tup.model.exception.ClienteAlreadyExistsException;
 import ar.edu.utn.frbb.tup.model.exception.TipoCuentaAlreadyExistsException;
 import ar.edu.utn.frbb.tup.persistence.ClienteDao;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
 
 class ClienteServiceTest {
 
@@ -24,10 +26,25 @@ class ClienteServiceTest {
     }
 
     @Test
-    public void testClienteMenor18Años() {
+    public void testClienteMenor18Años() throws ClienteAlreadyExistsException {
         Cliente clienteMenorDeEdad = new Cliente();
         clienteMenorDeEdad.setFechaNacimiento(LocalDate.of(2020, 2, 7));
-        assertThrows(IllegalArgumentException.class, () -> clienteService.darDeAltaCliente(clienteMenorDeEdad));
+        try {
+            clienteService.darDeAltaCliente(clienteMenorDeEdad);
+            fail("Expected IllegalArgumentException to be thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected exception
+        }
+    }
+
+    private void assertThrows(Class<IllegalArgumentException> class1, Object object) {
+        try {
+            object.toString();
+            fail("Expected IllegalArgumentException to be thrown");
+        } catch (IllegalArgumentException e) {
+            // Expected exception
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'assertThrows'");
     }
 
     @Test
@@ -35,7 +52,7 @@ class ClienteServiceTest {
         Cliente cliente = new Cliente();
         cliente.setFechaNacimiento(LocalDate.of(1978,3,25));
         cliente.setDni(29857643);
-        cliente.setTipoPersona(TipoPersona.PERSONA_FISICA);
+        cliente.setTipoPersona(TipoPersona.INDIVIDUAL);
 
         clienteService.darDeAltaCliente(cliente);
 
@@ -49,8 +66,8 @@ class ClienteServiceTest {
         pepeRino.setDni(26456439);
         pepeRino.setNombre("Pepe");
         pepeRino.setApellido("Rino");
-        pepeRino.setFechaNacimiento(LocalDate.of(1978, 3,25));
-        pepeRino.setTipoPersona(TipoPersona.PERSONA_FISICA);
+        pepeRino.setFechaNacimiento(LocalDate.of(1978, 3, 25));
+        pepeRino.setTipoPersona(TipoPersona.LEGAL_ENTITY);
 
         clienteService.darDeAltaCliente(pepeRino);
 
@@ -58,10 +75,27 @@ class ClienteServiceTest {
         mateoA.setDni(26456439);
         mateoA.setNombre("Mateo");
         mateoA.setApellido("Abraham");
-        mateoA.setFechaNacimiento(LocalDate.of(2001, 12,18));
-        mateoA.setTipoPersona(TipoPersona.PERSONA_FISICA);
+        mateoA.setFechaNacimiento(LocalDate.of(2001, 12, 18));
+        mateoA.setTipoPersona(TipoPersona.LEGAL_ENTITY);
 
-        assertThrows(ClienteAlreadyExistsException.class, () -> clienteService.darDeAltaCliente(mateoA));
+        try {
+            clienteService.darDeAltaCliente(mateoA);
+            fail("Expected ClienteAlreadyExistsException");
+        } catch (ClienteAlreadyExistsException e) {
+            // Expected exception
+        }
+    }
+
+    private void assertThrows(Class<? extends Exception> exceptionClass, Runnable runnable) {
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            if (exceptionClass.isInstance(e)) {
+                return;
+            }
+            throw new AssertionError("Expected " + exceptionClass.getName() + ", but got " + e.getClass().getName(), e);
+        }
+        throw new AssertionError("Expected " + exceptionClass.getName() + " to be thrown");
     }
 
     @Test
@@ -71,7 +105,7 @@ class ClienteServiceTest {
         pepeRino.setNombre("Pepe");
         pepeRino.setApellido("Rino");
         pepeRino.setFechaNacimiento(LocalDate.of(1978, 3,25));
-        pepeRino.setTipoPersona(TipoPersona.PERSONA_FISICA);
+        pepeRino.setTipoPersona(TipoPersona.LEGAL_ENTITY);
 
         Cuenta cuenta = new Cuenta()
                 .setMoneda("ARS")
@@ -83,11 +117,4 @@ class ClienteServiceTest {
         assertEquals(1, pepeRino.getCuentas().size());
         assertEquals(pepeRino, cuenta.getTitular());
     }
-
-    //Agregar una CA$ y agregar otra cuenta con mismo tipo y moneda --> fallar (assertThrows)
-    //Agregar una CA$ y CC$ --> success 2 cuentas, titular peperino
-    //Agregar una CA$ y CAU$S --> success 2 cuentas, titular peperino...
-
-
-
 }
