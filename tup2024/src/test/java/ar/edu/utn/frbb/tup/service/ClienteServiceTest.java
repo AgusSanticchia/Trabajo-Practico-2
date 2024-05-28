@@ -37,15 +37,15 @@ class ClienteServiceTest {
         }
     }
 
-    private void assertThrows(Class<IllegalArgumentException> class1, Object object) {
-        try {
-            object.toString();
-            fail("Expected IllegalArgumentException to be thrown");
-        } catch (IllegalArgumentException e) {
-            // Expected exception
-        }
-        throw new UnsupportedOperationException("Unimplemented method 'assertThrows'");
-    }
+//    private void assertThrows(Class<IllegalArgumentException> class1, Object object) {
+//        try {
+//            object.toString();
+//            fail("Expected IllegalArgumentException to be thrown");
+//        } catch (IllegalArgumentException e) {
+//            // Expected exception
+//        }
+//        throw new UnsupportedOperationException("Unimplemented method 'assertThrows'");
+//    }
 
     @Test
     public void testClienteSuccess() throws ClienteAlreadyExistsException {
@@ -86,17 +86,19 @@ class ClienteServiceTest {
         }
     }
 
-    private void assertThrows(Class<? extends Exception> exceptionClass, Runnable runnable) {
-        try {
-            runnable.run();
-        } catch (Exception e) {
-            if (exceptionClass.isInstance(e)) {
-                return;
-            }
-            throw new AssertionError("Expected " + exceptionClass.getName() + ", but got " + e.getClass().getName(), e);
-        }
-        throw new AssertionError("Expected " + exceptionClass.getName() + " to be thrown");
-    }
+//   private void assertThrows(Class<? extends Exception> exceptionClass, Runnable runnable) {
+//    try {
+//        runnable.run();
+//        fail("Expected " + exceptionClass.getSimpleName() + " to be thrown");
+//    } catch (Exception e) {
+//        if (exceptionClass.isInstance(e)) {
+//            return; // Expected exception
+//        }
+//            throw new AssertionError("Expected " + exceptionClass.getSimpleName() + ", but got " + e.getClass().getSimpleName(), e);
+//        }
+//        throw new AssertionError("Expected " + exceptionClass.getSimpleName() + " to be thrown");
+//    }
+
 
     @Test
     public void testAgregarCuentaAClienteSuccess() throws TipoCuentaAlreadyExistsException {
